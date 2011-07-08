@@ -21,11 +21,11 @@ import java.util.Random
 import org.joda.time.Instant
 import org.powertac.common.AbstractCustomer
 import org.powertac.common.Broker
-import org.powertac.common.Constants
 import org.powertac.common.Tariff
 import org.powertac.common.TariffSubscription
 import org.powertac.common.TimeService
 import org.powertac.common.Timeslot
+import org.powertac.common.configurations.GenericConstants
 import org.powertac.common.enumerations.PowerType
 
 /**
@@ -95,7 +95,7 @@ class GenericProducer extends AbstractCustomer{
 
   double getProductionByTimeslot(int serial) {
 
-    int hour = (int) (serial % Constants.HOURS_OF_DAY)
+    int hour = (int) (serial % GenericConstants.HOURS_OF_DAY)
 
     log.info " Hour: ${hour} "
 
@@ -200,7 +200,7 @@ class GenericProducer extends AbstractCustomer{
   {
     double paymentVariable = estimateVariableTariffPayment(tariff)
     double paymentFixed = estimateFixedTariffPayments(tariff)
-    return (paymentVariable + paymentFixed)/Constants.MILLION
+    return (paymentVariable + paymentFixed)/GenericConstants.MILLION
   }
 
   double estimateFixedTariffPayments(Tariff tariff)
@@ -209,7 +209,7 @@ class GenericProducer extends AbstractCustomer{
     double minDuration
 
     // When there is not a Minimum Duration of the contract, you cannot divide with the duration because you don't know it.
-    if (tariff.getMinDuration() == 0) minDuration = Constants.MEAN_TARIFF_DURATION * TimeService.DAY
+    if (tariff.getMinDuration() == 0) minDuration = GenericConstants.MEAN_TARIFF_DURATION * TimeService.DAY
     else minDuration = tariff.getMinDuration()
 
     log.info("Minimum Duration: ${minDuration}")
@@ -223,10 +223,10 @@ class GenericProducer extends AbstractCustomer{
 
     int serial = ((timeService.currentTime.millis - timeService.base) / TimeService.HOUR)
     Instant base = timeService.currentTime - serial*TimeService.HOUR
-    int day = (int) (serial / Constants.HOURS_OF_DAY) + 1 // this will be changed to one or more random numbers
+    int day = (int) (serial / GenericConstants.HOURS_OF_DAY) + 1 // this will be changed to one or more random numbers
     Instant now = base + day * TimeService.DAY
 
-    for (int i=0;i < Constants.HOURS_OF_DAY;i++){
+    for (int i=0;i < GenericConstants.HOURS_OF_DAY;i++){
       summary = getProductionByTimeslot(i)
       cumulativeSummary += summary
       paymentSummary += tariff.getUsageCharge(now,summary,cumulativeSummary)
@@ -245,12 +245,12 @@ class GenericProducer extends AbstractCustomer{
     log.info(estimation.toString())
     int[] possibilities = new int[estimation.size()]
     for (int i=0;i < estimation.size();i++){
-      summedEstimations += Math.pow(Constants.EPSILON,lamda*estimation.get(i))
+      summedEstimations += Math.pow(GenericConstants.EPSILON,lamda*estimation.get(i))
       "Payment variable: ${estimation.get(i)}"
       log.info"Summary of Estimation: ${summedEstimations}"
     }
     for (int i = 0;i < estimation.size();i++){
-      possibilities[i] = (int)(Constants.PERCENTAGE *(Math.pow(Constants.EPSILON,lamda*estimation.get(i)) / summedEstimations))
+      possibilities[i] = (int)(GenericConstants.PERCENTAGE *(Math.pow(GenericConstants.EPSILON,lamda*estimation.get(i)) / summedEstimations))
       for (int j=0;j < possibilities[i]; j++){
         randomizer.add(i)
       }

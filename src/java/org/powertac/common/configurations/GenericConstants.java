@@ -18,7 +18,7 @@ package org.powertac.common.configurations;
  * @author Antonios Chrysopoulos
  * @version 1.0, Date: 13.12.10
  */
-public class Constants {
+public class GenericConstants {
 
   public static final int DECIMALS = 4;
   public static final int HOURS_OF_DAY = 24;

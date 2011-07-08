@@ -38,7 +38,7 @@ implements InitializationService {
   {
     PluginConfig genericProducer =
         new PluginConfig(roleName:'GenericProducer',
-        configuration: [population: '1', numberOfProducers: '0'])
+        configuration: [population: '1', numberOfProducers: '2'])
     genericProducer.save()
   }
 
