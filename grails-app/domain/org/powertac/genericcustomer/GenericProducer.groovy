@@ -100,7 +100,7 @@ class GenericProducer extends AbstractCustomer{
     log.info " Hour: ${hour} "
 
     Random ran = new Random()
-    return 100 * ran.nextFloat()
+    return GenericConstants.THOUSAND * ran.nextFloat()
 
   }
 
@@ -110,7 +110,7 @@ class GenericProducer extends AbstractCustomer{
     log.info "Hour: ${hour} "
 
     Random ran = new Random()
-    return 100 * ran.nextFloat()
+    return GenericConstants.THOUSAND * ran.nextFloat()
 
   }
 
@@ -239,7 +239,7 @@ class GenericProducer extends AbstractCustomer{
   }
 
   int logitPossibilityEstimation(Vector estimation) {
-    double lamda = 250000 // 0 the random - 10 the logic
+    double lamda = 2500 // 0 the random - 10 the logic
     double summedEstimations = 0
     Vector randomizer = new Vector()
     log.info(estimation.toString())
@@ -260,6 +260,19 @@ class GenericProducer extends AbstractCustomer{
     int index = randomizer.get((int)(randomizer.size()*Math.random()))
     log.info "Resulting Index = ${index}"
     return index
+  }
+
+  def getBootstrapData(){
+
+    long[][] bootstrap = new long[GenericConstants.DAYS_OF_BOOTSTRAP][GenericConstants.HOURS_OF_DAY]
+
+    for (int i = 0;i < GenericConstants.DAYS_OF_BOOTSTRAP;i++){
+      for (int j = 0;j < GenericConstants.HOURS_OF_DAY;j++){
+        bootstrap[i][j] = (long)getProductionByTimeslot(i*GenericConstants.HOURS_OF_DAY + j)
+      }
+    }
+
+    return bootstrap
   }
 
   void step(){
