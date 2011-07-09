@@ -69,7 +69,7 @@ class GenericConsumer extends AbstractCustomer{
         summary = summary + ran
       }
       log.info "Summary: ${summary}"
-      return summary
+      return summary*GenericConstants.THOUSAND
     }
   }
 
@@ -94,7 +94,7 @@ class GenericConsumer extends AbstractCustomer{
         summary = summary + ran
       }
       log.info "Summary: ${summary}"
-      return summary
+      return summary*GenericConstants.THOUSAND
     }
   }
 
@@ -249,6 +249,19 @@ class GenericConsumer extends AbstractCustomer{
     log.info "Resulting Index = ${index}"
     return index
 
+  }
+
+  def getBootstrapData(){
+
+    long[][] bootstrap = new long[GenericConstants.DAYS_OF_BOOTSTRAP][GenericConstants.HOURS_OF_DAY]
+
+    for (int i = 0;i < GenericConstants.DAYS_OF_BOOTSTRAP;i++){
+      for (int j = 0;j < GenericConstants.HOURS_OF_DAY;j++){
+        bootstrap[i][j] = (long)getConsumptionByTimeslot(i*GenericConstants.HOURS_OF_DAY + j)
+      }
+    }
+
+    return bootstrap
   }
 
   void step(){

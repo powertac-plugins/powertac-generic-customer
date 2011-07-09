@@ -18,13 +18,19 @@ package org.powertac.common.configurations;
  * @author Antonios Chrysopoulos
  * @version 1.0, Date: 13.12.10
  */
-public class GenericConstants {
+public class GenericConstants
+{
 
   public static final int DECIMALS = 4;
   public static final int HOURS_OF_DAY = 24;
   public static final int PERCENTAGE = 100;
+  public static final int THOUSAND = 1000;
   public static final int MILLION = 1000000;
   public static final double EPSILON = 2.7;
+
+  public static final int DAYS_OF_BOOTSTRAP = 14;
+  public static final int WEEKS_OF_BOOTSTRAP = 2;
+
   public static final int MEAN_TARIFF_DURATION = 5;
   public static final int MORNING_START_HOUR = 7;
   public static final int EVENING_START_HOUR = 18;
