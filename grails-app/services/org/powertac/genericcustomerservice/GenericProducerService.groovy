@@ -53,8 +53,8 @@ class GenericProducerService implements TimeslotPhaseProcessor {
 
     Integer numberOfProducers = config.configuration['numberOfProducers']?.toInteger()
     if (value == null) {
-      log.error "Missing value for numberOfProducers. Default is 2"
-      numberOfProducers = 2
+      log.error "Missing value for numberOfProducers. Default is 0"
+      numberOfProducers = 0
     }
     for (int i = 1; i < numberOfProducers + 1; i++){
       def genericProducerInfo =
